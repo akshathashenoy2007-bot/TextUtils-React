@@ -28,6 +28,20 @@ export default function Textbox(props) {
     setText(newText);
   }
 
+  const handleClearText = () => {
+    setText("");
+  }
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(text);
+    alert("Text Copied!");
+  }
+
+  const handlePaste = async () => {
+    const pastedText = await navigator.clipboard.readText();
+    setText(pastedText);
+  }
+
   return (
     <div
       className="container"
@@ -37,6 +51,7 @@ export default function Textbox(props) {
         padding: '20px'
       }}
     >
+
       <div className="mb-3">
         <label htmlFor="MyBox" className="form-label">
           <h1>Enter your text to analyse</h1>
@@ -56,42 +71,77 @@ export default function Textbox(props) {
       </div>
 
       <button
-        className="btn btn-primary mx-2"
+        className="btn btn-primary mx-2 my-2"
         onClick={handleUpClick}
       >
         Convert to Upper Case
       </button>
 
       <button
-        className="btn btn-primary mx-2"
+        className="btn btn-primary mx-2 my-2"
         onClick={handleDownClick}
       >
         Convert to Lower Case
       </button>
 
       <button
-        className="btn btn-primary mx-2"
+        className="btn btn-primary mx-2 my-2"
         onClick={handlespeak}
       >
         Speak
       </button>
 
       <button
-        className="btn btn-primary mx-2"
+        className="btn btn-primary mx-2 my-2"
         onClick={handleRemoveSpaces}
       >
         Remove Extra Spaces
       </button>
 
+      <button
+        className="btn btn-primary mx-2 my-2"
+        onClick={handleClearText}
+      >
+        Clear Text
+      </button>
+
+      <button
+        className="btn btn-primary mx-2 my-2"
+        onClick={handleCopy}
+      >
+        Copy Text
+      </button>
+
+      <button
+        className="btn btn-primary mx-2 my-2"
+        onClick={handlePaste}
+      >
+        Paste Text
+      </button>
+
       <h2 className="mt-4">Text Summary</h2>
 
-      <p>{text === "" ? 0 : text.split(" ").filter(word => word !== "").length} words</p>
+      <p>
+        <strong>Words:</strong>{" "}
+        {text.split(" ").filter(word => word !== "").length}
+      </p>
 
-      <p>{text.length} characters</p>
+      <p>
+        <strong>Characters:</strong> {text.length}
+      </p>
+
+      <p>
+        <strong>Reading Time:</strong>{" "}
+        {(0.008 * text.split(" ").filter(word => word !== "").length).toFixed(2)} Minutes
+      </p>
 
       <h2>Preview</h2>
 
-      <p>{text.length > 0 ? text : "Enter some text above to preview it here"}</p>
+      <p>
+        {text.length > 0
+          ? text
+          : "Enter some text above to preview it here."}
+      </p>
 
     </div>
   )
